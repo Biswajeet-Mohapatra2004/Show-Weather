@@ -9,7 +9,7 @@ function AQI({ search }) {
         const fetchAqiData = async () => {
             try {
                 if (!search) return;
-                const response = await axios.get(`${baseUrl}/weather?location=${search}&aqi=true`);
+                const response = await axios.get(`${baseUrl}/aqi?location=${search}`);
                 const aqiValue = response.data.current.air_quality["pm2_5"];
                 setAqi(aqiValue);
             } catch (error) {
