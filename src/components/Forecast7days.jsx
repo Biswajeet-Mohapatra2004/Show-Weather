@@ -3,14 +3,13 @@ import axios from "axios";
 
 function Forecast7Days({ search }) {
     const [forecastData, setForecastData] = useState([]);
-    const key = import.meta.env.VITE_API_KEY;
     const baseUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(() => {
         const fetch7DayForecast = async () => {
             try {
                 if (!search) return;
-                const response = await axios.get(`${baseUrl}/forecast/${search}`);
+                const response = await axios.get(`${baseUrl}?location=${search}&forecast=true`);
                 setForecastData(response.data.forecast.forecastday);
                 console.log(response.data.forecast.forecastday)
             } catch (error) {

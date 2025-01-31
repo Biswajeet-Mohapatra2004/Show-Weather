@@ -8,7 +8,6 @@ export const useWeatherData = (search) => {
     const [isDaytime, setIsDaytime] = useState(false);
     const [location, setLocation] = useState("");
 
-    const key = import.meta.env.VITE_API_KEY;
     const baseUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(() => {
@@ -25,8 +24,8 @@ export const useWeatherData = (search) => {
                     locationQuery = `${latitude},${longitude}`;
                 }
 
-                const currentResponse = await axios.get(`${baseUrl}/${locationQuery}`);
-                const forecastResponse = await axios.get(`${baseUrl}/forecast/${currentResponse.data.location.name}`);
+                const currentResponse = await axios.get(`${baseUrl}?location=${locationQuery}`);
+                const forecastResponse = await axios.get(`${baseUrl}?location=${currentResponse.data.location.name}&forecast=true`);
 
                 // Update state
                 setLocation(currentResponse.data.location.name);

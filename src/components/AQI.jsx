@@ -3,14 +3,13 @@ import axios from "axios";
 
 function AQI({ search }) {
     const [aqi, setAqi] = useState(null);
-    const key = import.meta.env.VITE_API_KEY;
     const baseUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(() => {
         const fetchAqiData = async () => {
             try {
                 if (!search) return;
-                const response = await axios.get(`${baseUrl}/aqi/${search}`);
+                const response = await axios.get(`${baseUrl}?location=${search}&aqi=true`);
                 const aqiValue = response.data.current.air_quality["pm2_5"];
                 setAqi(aqiValue);
             } catch (error) {
