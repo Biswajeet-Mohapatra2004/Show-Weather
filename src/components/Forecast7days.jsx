@@ -10,8 +10,9 @@ function Forecast7Days({ search }) {
         const fetch7DayForecast = async () => {
             try {
                 if (!search) return;
-                const response = await axios.get(`${baseUrl}/forecast.json?key=${key}&q=${search}&days=7`);
+                const response = await axios.get(`${baseUrl}/forecast/${search}`);
                 setForecastData(response.data.forecast.forecastday);
+                console.log(response.data.forecast.forecastday)
             } catch (error) {
                 console.error("Error fetching 7-day forecast:", error);
             }

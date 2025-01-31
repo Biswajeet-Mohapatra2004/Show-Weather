@@ -25,8 +25,8 @@ export const useWeatherData = (search) => {
                     locationQuery = `${latitude},${longitude}`;
                 }
 
-                const currentResponse = await axios.get(`${baseUrl}/current.json?key=${key}&q=${locationQuery}`);
-                const forecastResponse = await axios.get(`${baseUrl}/forecast.json?key=${key}&q=${currentResponse.data.location.name}&days=1&aqi=yes`);
+                const currentResponse = await axios.get(`${baseUrl}/${locationQuery}`);
+                const forecastResponse = await axios.get(`${baseUrl}/forecast/${currentResponse.data.location.name}`);
 
                 // Update state
                 setLocation(currentResponse.data.location.name);

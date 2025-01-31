@@ -10,7 +10,7 @@ function AQI({ search }) {
         const fetchAqiData = async () => {
             try {
                 if (!search) return;
-                const response = await axios.get(`${baseUrl}/current.json?key=${key}&q=${search}&aqi=yes`);
+                const response = await axios.get(`${baseUrl}/aqi/${search}`);
                 const aqiValue = response.data.current.air_quality["pm2_5"];
                 setAqi(aqiValue);
             } catch (error) {
