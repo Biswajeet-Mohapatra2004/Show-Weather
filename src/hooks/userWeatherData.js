@@ -9,7 +9,7 @@ export const useWeatherData = (search) => {
     const [location, setLocation] = useState("");
 
     const baseUrl = import.meta.env.VITE_BASE_URL;
-
+    //const key = import.meta.env.VITE_API_KEY
     useEffect(() => {
         const fetchWeatherData = async () => {
             try {
