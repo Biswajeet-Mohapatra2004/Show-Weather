@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const useWeatherData = (search) => {
+export const useWeatherData = (search, setLoading) => {
     const [weatherData, setWeatherData] = useState(null);
     const [hourlyData, setHourlyData] = useState([]);
     const [astroData, setAstroData] = useState(null);
@@ -9,13 +9,14 @@ export const useWeatherData = (search) => {
     const [location, setLocation] = useState("");
 
     const baseUrl = import.meta.env.VITE_BASE_URL;
-    //const key = import.meta.env.VITE_API_KEY
+
     useEffect(() => {
         const fetchWeatherData = async () => {
             try {
+                setLoading(true);
                 let locationQuery = search;
 
-                // Handle geolocation if no search query
+
                 if (!search) {
                     const locationData = await new Promise((resolve, reject) => {
                         navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 });
@@ -27,7 +28,6 @@ export const useWeatherData = (search) => {
                 const currentResponse = await axios.get(`${baseUrl}/weather?location=${locationQuery}`);
                 const forecastResponse = await axios.get(`${baseUrl}/forecast?location=${currentResponse.data.location.name}`);
 
-                // Update state
                 setLocation(currentResponse.data.location.name);
                 setWeatherData(currentResponse.data.current);
                 setHourlyData(forecastResponse.data.forecast.forecastday[0].hour);
@@ -41,11 +41,13 @@ export const useWeatherData = (search) => {
                 if (error.message.includes("Geolocation")) {
                     alert("Location access denied or unavailable. Please search manually.");
                 }
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchWeatherData();
-    }, [search]);
+    }, [search, setLoading]);
 
     return { weatherData, hourlyData, astroData, isDaytime, location };
 };
